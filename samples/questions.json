@@ -1,0 +1,195 @@
+{
+  "documents": {
+    "report.hwp": {
+      "questions": [
+        {
+          "id": "cell-h1",
+          "type": "cell",
+          "question": "2025년 상반기 매출은?",
+          "row": [
+            "매출"
+          ],
+          "col": [
+            "2025년",
+            "상반기"
+          ],
+          "answer": "100"
+        },
+        {
+          "id": "cell-h2",
+          "type": "cell",
+          "question": "2025년 하반기 매출은?",
+          "row": [
+            "매출"
+          ],
+          "col": [
+            "2025년",
+            "하반기"
+          ],
+          "answer": "120"
+        },
+        {
+          "id": "cell-total",
+          "type": "cell",
+          "question": "합계 행의 비고 열 값은?",
+          "row": [
+            "합계"
+          ],
+          "col": [
+            "비고"
+          ],
+          "answer": "220"
+        },
+        {
+          "id": "note-1",
+          "type": "footnote",
+          "question": "각주 1의 내용은?",
+          "number": 1,
+          "answer": "금액 단위는 백만 원이다."
+        },
+        {
+          "id": "note-2",
+          "type": "footnote",
+          "question": "각주 2의 내용은?",
+          "number": 2,
+          "answer": "수치는 모두 가상의 값이다."
+        },
+        {
+          "id": "num-2",
+          "type": "number",
+          "question": "'둘째 항목'의 번호는?",
+          "text": "둘째 항목",
+          "answer": "2."
+        },
+        {
+          "id": "num-sub",
+          "type": "number",
+          "question": "'세부 사항 둘'의 번호는?",
+          "text": "세부 사항 둘",
+          "answer": "나."
+        },
+        {
+          "id": "head-2",
+          "type": "heading",
+          "question": "'현황 요약'은 몇 단계 제목인가?",
+          "text": "현황 요약",
+          "answer": "2"
+        }
+      ],
+      "tables": [
+        {
+          "rows": 4,
+          "cols": 4,
+          "cells": 11,
+          "merged": 4
+        }
+      ]
+    },
+    "report.hwpx": {
+      "questions": [
+        {
+          "id": "cell-h1",
+          "type": "cell",
+          "question": "2025년 상반기 매출은?",
+          "row": [
+            "매출"
+          ],
+          "col": [
+            "2025년",
+            "상반기"
+          ],
+          "answer": "100"
+        },
+        {
+          "id": "cell-h2",
+          "type": "cell",
+          "question": "2025년 하반기 매출은?",
+          "row": [
+            "매출"
+          ],
+          "col": [
+            "2025년",
+            "하반기"
+          ],
+          "answer": "120"
+        },
+        {
+          "id": "cell-total",
+          "type": "cell",
+          "question": "합계 행의 비고 열 값은?",
+          "row": [
+            "합계"
+          ],
+          "col": [
+            "비고"
+          ],
+          "answer": "220"
+        },
+        {
+          "id": "note-1",
+          "type": "footnote",
+          "question": "각주 1의 내용은?",
+          "number": 1,
+          "answer": "금액 단위는 백만 원이다."
+        },
+        {
+          "id": "note-2",
+          "type": "footnote",
+          "question": "각주 2의 내용은?",
+          "number": 2,
+          "answer": "수치는 모두 가상의 값이다."
+        },
+        {
+          "id": "num-2",
+          "type": "number",
+          "question": "'둘째 항목'의 번호는?",
+          "text": "둘째 항목",
+          "answer": "2."
+        },
+        {
+          "id": "num-sub",
+          "type": "number",
+          "question": "'세부 사항 둘'의 번호는?",
+          "text": "세부 사항 둘",
+          "answer": "나."
+        },
+        {
+          "id": "head-2",
+          "type": "heading",
+          "question": "'현황 요약'은 몇 단계 제목인가?",
+          "text": "현황 요약",
+          "answer": "2"
+        }
+      ],
+      "tables": [
+        {
+          "rows": 4,
+          "cols": 4,
+          "cells": 11,
+          "merged": 4
+        }
+      ]
+    },
+    "budget.hwp": {
+      "questions": [],
+      "tables": [
+        {
+          "rows": 3,
+          "cols": 3,
+          "cells": 9,
+          "merged": 0
+        },
+        {
+          "rows": 2,
+          "cols": 2,
+          "cells": 3,
+          "merged": 1
+        }
+      ],
+      "textbox": [
+        "글상자 안내 문단 하나",
+        "글상자 안내 문단 둘"
+      ]
+    }
+  }
+}
