@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hwpdown"
+version = "0.1.0"
+description = "Pure-Python HWP 5.0 / HWPX reader that renders LLM-friendly Markdown (merged cells, footnotes, numbering) from the public file-format specs."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "LeeGyeongPil" }]
+keywords = ["hwp", "hwpx", "markdown", "llm", "rag", "korean"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Text Processing :: Markup :: Markdown",
+  "Typing :: Typed",
+]
+dependencies = ["olefile>=0.47,<1"]
+
+[project.scripts]
+hwpdown = "hwpdown.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/LeeGyeongPil/hwpdown"
+
+[dependency-groups]
+dev = ["pytest>=8", "python-hwpx==6.11.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hwpdown"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
