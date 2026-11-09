@@ -1,0 +1,11 @@
+hwpdown
+
+This product was developed with reference to the public document of Hancom's Hangul (.hwp) file format.
+본 제품은 한글과컴퓨터의 한/글 문서 파일(.hwp) 공개 문서를 참고하여 개발하였습니다.
+
+Specifications used:
+- Hancom HWP 5.0 file format (public document): https://www.hancom.com/support/downloadCenter/hwpOwnerView
+- KS X 6101 (OWPML / HWPX)
+- Microsoft [MS-CFB] Compound File Binary File Format: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-cfb/
+
+The sample documents under samples/ are synthetic and contain no third-party content.
