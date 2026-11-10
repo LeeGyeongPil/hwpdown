@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hwpdown"
-version = "0.1.0"
+version = "0.1.1"
 description = "Pure-Python HWP 5.0 / HWPX reader that renders LLM-friendly Markdown (merged cells, footnotes, numbering) from the public file-format specs."
 readme = "README.md"
 license = { text = "MIT" }

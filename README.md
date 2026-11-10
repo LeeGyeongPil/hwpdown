@@ -31,7 +31,7 @@ uv run hwpdown --version
 ```
 
 ```text
-hwpdown 0.1.0
+hwpdown 0.1.1
 ```
 
 ## 빠르게 시작하기
@@ -368,20 +368,10 @@ uv run hwpdown samples build /tmp/my-samples
 | `src/hwpdown/numbering.py`, `headings.py` | 번호 카운터 계산, 글자 크기 비율로 제목 추정 |
 | `src/hwpdown/render/` | 표(HTML/GFM)·각주·글상자 렌더링 |
 
-## 다른 변환기와 비교
+## 언제 쓰나
 
-2026-11-09에 각 레포의 문서와 직접 실행(프로브)으로 확인한 내용입니다. 출처는 아래 "더 알아보기" 절에 있습니다.
-
-| | hwpdown | kordoc | python-hwpx |
-|---|---|---|---|
-| 언어 | 순수 파이썬 | TypeScript(Node 필요) | 순수 파이썬 |
-| 병합 칸 | HTML 표로 보존 | HTML 표로 보존 | HTML 표로 보존 |
-| 자동 번호 복원 | 지원 | 지원 | 미지원 |
-| 각주 | 문서 전체 재번호 | 인라인 괄호 | 각주가 둘 이상일 때 번호가 겹쳐 내용 유실 확인 |
-| 쓰기(생성) | 없음(읽기 전용) | 확인하지 않음 | 지원 |
-| 라이선스 | MIT | MIT | Apache-2.0 |
-
-이 라이브러리는 읽기 전용이며 그림 추출·OCR·MCP·HWP 3.0은 범위 밖입니다. 쓰기나 더 넓은 형식이 필요하면 위 도구가 더 맞습니다.
+- 파이썬만으로 HWP 5.0/HWPX를 읽어 병합 칸 표·각주·자동 번호를 보존한 마크다운을 LLM/RAG에 넣고 싶을 때 맞습니다. Node나 AGPL 의존성 없이 쓸 수 있습니다.
+- 이 라이브러리는 읽기 전용이며 문서 쓰기(생성)·그림 추출·OCR·MCP·HWP 3.0은 범위 밖입니다. 이런 기능이 필요하면 [kordoc](https://github.com/chrisryugj/kordoc)이나 [python-hwpx](https://github.com/airmang/python-hwpx)도 살펴보세요.
 
 ## 한계·로드맵
 
@@ -428,7 +418,7 @@ uv run pytest -q
 - 한컴 공개 문서 다운로드·이용 조건: https://store.hancom.com/etc/hwpDownload.do (확인 2026-11-09)
 - 배포용 문서 형식: https://cdn.hancom.com/link/docs/한글문서파일형식_배포용문서_revision1.2.pdf (확인 2026-11-09)
 - KS X 6101(OWPML) 표준 정보: https://www.kssn.net/search/stddetail.do?itemNo=K001010119985 (확인 2026-11-09)
-- 비교한 도구: https://github.com/chrisryugj/kordoc , https://github.com/airmang/python-hwpx (확인 2026-11-09)
+- 다른 HWP 도구: https://github.com/chrisryugj/kordoc , https://github.com/airmang/python-hwpx (확인 2026-11-09)
 - 병합 칸 손실이 RAG 품질을 떨어뜨린다는 제작사 글(제작사 글이라 편향 가능): https://blog.hancom.com/en/?p=1184 (확인 2026-11-09)
 
 ## 용어 사전

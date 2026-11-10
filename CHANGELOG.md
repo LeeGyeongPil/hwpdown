@@ -4,6 +4,11 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-10
+
+### Changed
+- README: comparison table replaced by a short when-to-use section.
+
 ## [0.1.0]
 
 ### Added
