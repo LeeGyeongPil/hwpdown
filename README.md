@@ -1,5 +1,7 @@
 # hwpdown
 
+**한국어** | [English](README.en.md)
+
 > **English summary** — hwpdown is a pure-Python library and CLI that reads HWP 5.0 and HWPX documents straight from the public file-format specs and renders Markdown that keeps merged table cells, footnotes, automatic numbering and headings, so LLM/RAG pipelines get the structure the document really had. Its only runtime dependency is `olefile`. Install: `uv add git+https://github.com/LeeGyeongPil/hwpdown`. A built-in `hwpdown bench` command measures, on synthetic documents with known answers, how much structure matters (the default mode is a rule-based practice reader, not an LLM).
 
 한/글 문서(`.hwp`, `.hwpx`)를 **표·각주·번호가 흐트러지지 않은 마크다운**으로 바꿔 주는 파이썬 라이브러리 겸 명령줄 도구입니다. Node나 AGPL 의존성 없이, 공개된 파일 규격을 직접 읽습니다.
