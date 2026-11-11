@@ -2,9 +2,7 @@
 
 [한국어](README.md) | **English**
 
-hwpdown is a pure-Python library and CLI that reads HWP 5.0 and HWPX documents straight from the public file-format specs and renders Markdown that keeps merged table cells, footnotes, automatic numbering and headings, so LLM/RAG pipelines get the structure the document really had. Its only runtime dependency is `olefile`. Install: `uv add git+https://github.com/LeeGyeongPil/hwpdown`. A built-in `hwpdown bench` command measures, on synthetic documents with known answers, how much structure matters (the default mode is a rule-based practice reader, not an LLM).
-
-A Python library and command-line tool that turns Hangul word-processor documents (`.hwp`, `.hwpx`) into **Markdown with tables, footnotes and numbering intact**. It reads the published file specifications directly, with no Node and no AGPL dependencies.
+hwpdown is a pure-Python library and CLI that reads HWP 5.0 and HWPX documents (`.hwp`, `.hwpx`) straight from the public file-format specs (no Node, no AGPL dependencies) and renders Markdown that keeps merged table cells, footnotes, automatic numbering and headings, so LLM/RAG pipelines get the structure the document really had. Its only runtime dependency is `olefile`. Install: `uv add git+https://github.com/LeeGyeongPil/hwpdown`. A built-in `hwpdown bench` command measures, on synthetic documents with known answers, how much structure matters (the default mode is a rule-based practice reader, not an LLM).
 
 ![Conversion result with structure preserved](https://raw.githubusercontent.com/LeeGyeongPil/hwpdown/main/docs/images/01-convert-llm.png)
 
