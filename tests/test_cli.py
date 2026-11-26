@@ -44,3 +44,52 @@ def test_directory_argument_gives_friendly_error(samples, capsys):
     assert main(["convert", str(samples)]) == 2
     err = capsys.readouterr().err
     assert "is a directory" in err and "Traceback" not in err
+
+
+def test_batch_output_dir_converts_and_names_files(samples, tmp_path, capsys):
+    out = tmp_path / "new" / "out"
+    files = [str(samples / "report.hwp"), str(samples / "budget.hwp")]
+    assert main(["convert", *files, "-d", str(out), "--no-legend"]) == 0
+    err = capsys.readouterr().err
+    assert "converted 2, skipped 0" in err and "wrote" in err
+    assert sorted(p.name for p in out.iterdir()) == ["budget.md", "report.md"]
+    assert "읽는 법" not in (out / "report.md").read_text(encoding="utf-8")
+    assert main(["convert", files[0], "-d", str(out), "--json"]) == 0
+    assert json.loads((out / "report.json").read_text(encoding="utf-8"))["format"] == "hwp5"
+
+
+def test_batch_skips_failures_and_returns_1(samples, tmp_path, capsys):
+    out = tmp_path / "o"
+    args = ["convert", str(samples / "distribution.hwp"), str(tmp_path / "missing.hwp"),
+            str(tmp_path), str(samples / "report.hwpx"), "-d", str(out)]
+    assert main(args) == 1
+    err = capsys.readouterr().err
+    assert err.count("skipped ") >= 3 and "converted 1, skipped 3" in err
+    assert (out / "report.md").is_file()
+
+
+def test_batch_argument_errors_and_collision(samples, tmp_path, capsys):
+    two = [str(samples / "report.hwp"), str(samples / "budget.hwp")]
+    for extra in ([], ["-o", str(tmp_path / "x.md")]):
+        try:
+            main(["convert", *two, *extra])
+        except SystemExit as exc:
+            assert exc.code == 2
+        else:
+            raise AssertionError("expected argparse error")
+    try:
+        main(["convert", two[0], "-o", str(tmp_path / "x.md"), "-d", str(tmp_path)])
+    except SystemExit as exc:
+        assert exc.code == 2
+    else:
+        raise AssertionError("expected argparse error")
+    capsys.readouterr()
+    out = tmp_path / "c"
+    assert main(["convert", str(samples / "report.hwp"), str(samples / "report.hwpx"), "-d", str(out)]) == 1
+    assert "converted 1, skipped 1" in capsys.readouterr().err
+    assert [p.name for p in out.iterdir()] == ["report.md"]
+
+
+def test_single_file_path_unchanged(samples, capsys):
+    assert main(["convert", str(samples / "distribution.hwp")]) == 3
+    assert capsys.readouterr().out == ""

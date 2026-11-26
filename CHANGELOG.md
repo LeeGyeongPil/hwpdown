@@ -2,7 +2,10 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [0.2.0] - 2026-11-26
+
+### Added
+- `convert` accepts several files with `-d/--output-dir DIR`: writes `DIR/<name>.md` (or `.json`), skips files that fail or whose output name collides, prints `converted N, skipped M` and exits 1 if any were skipped. Single-file output and exit codes are unchanged.
 
 ## [0.1.1] - 2026-11-10
 

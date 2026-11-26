@@ -243,9 +243,23 @@ bomb.hwpx: 81,909 bytes on disk, 80 MiB when inflated
 | Command | What it does |
 |---|---|
 | `hwpdown detect FILE` | Prints the real format (`hwp5`/`hwpx`) |
-| `hwpdown convert FILE [-o OUT] [--style llm\|plain\|gfm-naive] [--no-legend] [--json]` | Converts to Markdown (or to the IR with `--json`) |
+| `hwpdown convert FILE... [-o OUT \| -d DIR] [--style llm\|plain\|gfm-naive] [--no-legend] [--json]` | Converts to Markdown (or to the IR with `--json`). Several files need `-d DIR` (failed files are skipped, exit code 1) |
 | `hwpdown samples build DIR` | Generates fresh synthetic practice documents in DIR |
 | `hwpdown bench DIR [--answerer mock\|llm] [--out FILE.jsonl]` | Compares question-answering accuracy per style |
+
+Batch example (`-d` creates the folder if missing. A file that cannot be converted is skipped and the rest continue; the exit code is 1 if any file was skipped. There is no folder recursion or glob expansion, so use your shell's glob):
+
+```text
+$ uv run hwpdown convert samples/report.hwp samples/distribution.hwp samples/budget.hwp -d OUT
+wrote OUT/report.md
+warning: skipped samples/distribution.hwp: 배포용(복제 방지) 문서라 본문을 읽지 않습니다. 원본 작성자에게 일반 .hwp 파일을 요청하세요.
+wrote OUT/budget.md
+converted 2, skipped 1
+```
+
+(The warning says: this is a distribution-only (copy-protected) document, so its body is not read; ask the author for a regular .hwp file.)
+
+Several files without `-d`, or `-o` together with `-d`, are rejected with exit code 2. If output names collide (`report.hwp` and `report.hwpx`), the first one written is kept and the later file is skipped.
 
 Exit codes: 0 success / 2 unsupported or corrupt file, or a folder was passed / 3 distribution-only or encrypted document / 4 limit exceeded.
 

@@ -36,8 +36,10 @@ def _parser() -> argparse.ArgumentParser:
     d.add_argument("file")
 
     c = sub.add_parser("convert", help="convert a document to Markdown")
-    c.add_argument("file")
-    c.add_argument("-o", "--output", help="write to this file instead of stdout")
+    c.add_argument("file", nargs="+", help="document(s) to convert; several files need -d")
+    c.add_argument("-o", "--output", help="write to this file instead of stdout (single file only)")
+    c.add_argument("-d", "--output-dir", metavar="DIR",
+                   help="batch mode: write DIR/<name>.md (or .json) per input; failures are skipped, exit 1")
     c.add_argument("--style", choices=["llm", "plain", "gfm-naive"], default="llm",
                    help="llm (default) keeps structure; plain and gfm-naive are comparison baselines")
     c.add_argument("--no-legend", action="store_true", help="omit the '읽는 법' legend")
@@ -57,7 +59,13 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    args = _parser().parse_args(argv)
+    parser = _parser()
+    args = parser.parse_args(argv)
+    if args.cmd == "convert":
+        if args.output and args.output_dir:
+            parser.error("convert: -o/--output and -d/--output-dir cannot be used together")
+        if len(args.file) > 1 and not args.output_dir:
+            parser.error("convert: several files need -d/--output-dir DIR (stdout and -o take one file)")
     try:
         return _run(args)
     except HwpdownError as exc:
@@ -74,22 +82,61 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 2
 
 
+def _convert_one(args: argparse.Namespace, path: str):
+    """Read one document and return (rendered text, warnings)."""
+    doc = read(path)
+    if args.json:
+        text = json.dumps(dataclasses.asdict(doc), ensure_ascii=False, indent=2)
+    else:
+        text = render(doc, RenderOptions(style=args.style, legend=not args.no_legend))
+    return text, doc.warnings
+
+
+def _convert_batch(args: argparse.Namespace) -> int:
+    """Convert every file into the output directory; skip failures, report a summary."""
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    suffix = ".json" if args.json else ".md"
+    converted = skipped = 0
+    claimed: set = set()
+    for name in args.file:
+        target = out_dir / (Path(name).stem + suffix)
+        if target in claimed:
+            print(f"warning: skipped {name}: output {target} already written by another input", file=sys.stderr)
+            skipped += 1
+            continue
+        try:
+            text, warnings = _convert_one(args, name)
+            target.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
+        except (HwpdownError, OSError) as exc:
+            reason = exc.strerror if isinstance(exc, OSError) and exc.strerror else str(exc)
+            print(f"warning: skipped {name}: {reason}", file=sys.stderr)
+            skipped += 1
+            continue
+        claimed.add(target)
+        converted += 1
+        print(f"wrote {target}", file=sys.stderr)
+        for w in warnings:
+            print(f"warning: {name}: {w}", file=sys.stderr)
+    print(f"converted {converted}, skipped {skipped}", file=sys.stderr)
+    return 1 if skipped else 0
+
+
 def _run(args: argparse.Namespace) -> int:
     if args.cmd == "detect":
         print(detect_format(args.file))
         return 0
     if args.cmd == "convert":
-        doc = read(args.file)
-        if args.json:
-            text = json.dumps(dataclasses.asdict(doc), ensure_ascii=False, indent=2)
-        else:
-            text = render(doc, RenderOptions(style=args.style, legend=not args.no_legend))
+        if args.output_dir:
+            return _convert_batch(args)
+        doc = _convert_one(args, args.file[0])
+        text, warnings = doc
         if args.output:
             Path(args.output).write_text(text, encoding="utf-8")
             print(f"wrote {args.output}", file=sys.stderr)
         else:
             sys.stdout.write(text if text.endswith("\n") else text + "\n")
-        for w in doc.warnings:
+        for w in warnings:
             print(f"warning: {w}", file=sys.stderr)
         return 0
     if args.cmd == "samples":

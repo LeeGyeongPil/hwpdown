@@ -16,7 +16,7 @@ from .ir import Document
 from .limits import Limits
 from .render import RenderOptions, render
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 CREDIT = "본 제품은 한글과컴퓨터의 한/글 문서 파일(.hwp) 공개 문서를 참고하여 개발하였습니다."
 
 __all__ = [

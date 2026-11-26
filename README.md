@@ -241,9 +241,21 @@ bomb.hwpx: 81,909 bytes on disk, 80 MiB when inflated
 | 명령 | 하는 일 |
 |---|---|
 | `hwpdown detect FILE` | 실제 형식(`hwp5`/`hwpx`)을 출력 |
-| `hwpdown convert FILE [-o OUT] [--style llm\|plain\|gfm-naive] [--no-legend] [--json]` | 마크다운(또는 `--json`으로 IR)으로 변환 |
+| `hwpdown convert FILE... [-o OUT \| -d DIR] [--style llm\|plain\|gfm-naive] [--no-legend] [--json]` | 마크다운(또는 `--json`으로 IR)으로 변환. 파일 여러 개는 `-d DIR`로 일괄 변환(실패한 파일은 건너뛰고 종료 코드 1) |
 | `hwpdown samples build DIR` | 합성 연습 문서를 DIR에 새로 생성 |
 | `hwpdown bench DIR [--answerer mock\|llm] [--out FILE.jsonl]` | 스타일별 질문 정답률 비교 |
+
+일괄 변환 예(`-d` 폴더가 없으면 만듭니다. 변환하지 못한 파일은 건너뛰고 나머지를 계속하며, 하나라도 건너뛰면 종료 코드 1입니다. 폴더 재귀·glob 확장은 하지 않으니 셸 glob을 쓰세요):
+
+```text
+$ uv run hwpdown convert samples/report.hwp samples/distribution.hwp samples/budget.hwp -d OUT
+wrote OUT/report.md
+warning: skipped samples/distribution.hwp: 배포용(복제 방지) 문서라 본문을 읽지 않습니다. 원본 작성자에게 일반 .hwp 파일을 요청하세요.
+wrote OUT/budget.md
+converted 2, skipped 1
+```
+
+파일이 둘 이상인데 `-d`가 없거나 `-o`와 `-d`를 함께 주면 종료 코드 2로 막습니다. 출력 이름이 겹치면(`report.hwp`와 `report.hwpx`) 먼저 쓴 쪽을 두고 나중 파일을 건너뜁니다.
 
 종료 코드: 0 성공 / 2 지원하지 않거나 깨진 파일·폴더를 넘긴 경우 / 3 배포용·암호 문서 / 4 상한 초과.
 
